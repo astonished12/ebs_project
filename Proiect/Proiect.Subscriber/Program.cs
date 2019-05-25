@@ -13,7 +13,7 @@ namespace Proiect.Subscriber
             {
                 Msg = "Connect",
                 Name = "Subscriber1",
-                Filter = new Filter {MaxX = 20, MaxY = 20}
+                Filter = new Filter {MaxX = 100, MinX = 0, MinY = 0, MaxY = 100}
             });
 
             Subscriber s2 = new Subscriber("Subscriber2");
@@ -21,7 +21,7 @@ namespace Proiect.Subscriber
             {
                 Msg = "Connect",
                 Name = "Subscriber2",
-                Filter = new Filter { MaxX = 1, MaxY = 2 }
+                Filter = new Filter { MaxX = 100, MinX = 1, MaxY = 100 , MinY = 1}
             });
 
             Subscriber s3 = new Subscriber("Subscriber3");
@@ -29,7 +29,7 @@ namespace Proiect.Subscriber
             {
                 Msg = "Connect",
                 Name = "Subscriber3",
-                Filter = new Filter { MaxX = 10, MaxY = 50 }
+                Filter = new Filter { MaxX = 100, MinX = 0, MaxY = 100, MinY = 0}
             });
 
             Console.ReadKey();

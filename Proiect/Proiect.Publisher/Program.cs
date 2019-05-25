@@ -12,7 +12,7 @@ namespace Proiect.Publisher
             Publisher p2 = new Publisher("Publisher1", "Broker2");
             var rnd = new Random();
 
-            for (int i = 0; i < 20000; i++)
+            for (int i = 0; i < 20; i++)
             {
                 p1.PublishMessage(new Message{
                     Msg = "Publish",
