@@ -13,14 +13,15 @@ namespace Proiect.Publisher
         static void Main(string[] args)
         {
             Publisher p1 = new Publisher("Publisher1", "Broker1");
+            var rnd = new Random();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20000; i++)
             {
                 p1.PublishMessage(new Message{
                     Msg = "Publish",
                     Filter = null,
                     Name = String.Empty,
-                    Payload = new Payload { X = 2, Y = 5 }});
+                    Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }});
             }
         }
     }
