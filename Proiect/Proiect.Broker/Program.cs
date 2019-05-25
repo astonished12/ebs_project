@@ -1,5 +1,6 @@
-﻿using System.Configuration;
-using ServiceStack;
+﻿using System;
+using System.Configuration;
+using System.Threading;
 
 namespace Proiect.Broker
 {
@@ -7,11 +8,11 @@ namespace Proiect.Broker
     {
         static void Main(string[] args)
         {
-            var licenseKeyText = ConfigurationManager.AppSettings["servicestack:license"];
-            Licensing.RegisterLicense(licenseKeyText);
-
             Broker b1 = new Broker("Broker1");
             Broker b2 = new Broker("Broker2");
+
+            Thread.Sleep(Timeout.Infinite);
+
         }
     }
 }

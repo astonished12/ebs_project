@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Proiect.Common;
-using ServiceStack;
-using ServiceStack.Redis;
+﻿using Proiect.Common;
+using StackExchange.Redis.Extensions.Core;
+using StackExchange.Redis.Extensions.Newtonsoft;
 
 namespace Proiect.Subscriber
 {
     public class Subscriber
     {
         private readonly Channel Channel;
-
+        private ISerializer Serializer;
         public Subscriber(string name)
         {
             Channel = new Channel(PubSubActors.Subscriber);
             Channel.StartListen($"Subscriber_{name}");
+            Serializer = new NewtonsoftSerializer();
+
         }
 
         public void ConnectToBroker(string brokerName, object message)
         {
-            using (var client = new RedisClient("localhost: 6379"))
-            {
-                client.PublishMessage($"Broker_{brokerName}", message.ToJson());
-            }
+            var publisher = Channel.Client.GetSubscriber();
+            publisher.PublishAsync($"Broker_{brokerName}", Serializer.Serialize(message));
         }
 
         public void DisconnectFromBroker(string brokerName)
         {
-            Channel.Client.PublishMessage($"Broker_{brokerName}", "disconnect");
+            var publisher = Channel.Client.GetSubscriber();
+            publisher.PublishAsync($"Broker_{brokerName}", "disconnect");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Proiect.Common;
+﻿using System;
+using Proiect.Common;
 using Proiect.Common.Messages;
 
 namespace Proiect.Subscriber
@@ -28,8 +29,10 @@ namespace Proiect.Subscriber
             {
                 Msg = "Connect",
                 Name = "Subscriber3",
-                Filter = new Filter { MaxX = 0, MaxY = 50 }
+                Filter = new Filter { MaxX = 10, MaxY = 50 }
             });
+
+            Console.ReadKey();
 
 
         }
