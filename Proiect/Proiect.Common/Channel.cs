@@ -21,18 +21,17 @@ namespace Proiect.Common
         public ConnectionMultiplexer Client { get; set; }
         public Thread ChannelThread = null;
 
-        public Dictionary<string, Filter> SubscribersList;
+        public static Dictionary<string, Filter> SubscribersList = new Dictionary<string, Filter>();
         private readonly PubSubActors Type;
         private static readonly ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private ISerializer Serializer;
+        private const string IpConnection = "localhost: 6379";
+
+        private int _totalMsgReceived = 0;
 
         public Channel(PubSubActors type)
         {
-            Client = ConnectionMultiplexer.Connect("localhost: 6379");
+            Client = ConnectionMultiplexer.Connect(IpConnection);
             Type = type;
-
-            SubscribersList = new Dictionary<string, Filter>();
-            Serializer = new NewtonsoftSerializer();
         }
 
         public void StartListen(string name)
@@ -43,7 +42,6 @@ namespace Proiect.Common
                 ISubscriber subscription = Client.GetSubscriber();
                 subscription.Subscribe(Name, (channel, msg) =>
                 {
-                    Log.DebugFormat("Actor {0} received '{1}' from channel '{2}'", Name, msg, channel);
                     if (Type == PubSubActors.Broker)
                     {
                         var message = JsonConvert.DeserializeObject<Message>(msg);
@@ -55,20 +53,38 @@ namespace Proiect.Common
                                 if (filter == null)
                                 {
                                     SubscribersList.Add(message.Name, message.Filter);
+                                    Log.DebugFormat("{0} connected to {1}", message.Name, name);
                                 }
                             }
                             else if (message.Msg.Equals("Disconnect"))
                             {
-                                SubscribersList.TryGetValue(message.Name, out var filter);
-                                if (filter != null)
+                                if (SubscribersList.ContainsKey(message.Name))
                                 {
                                     SubscribersList.Remove(message.Name);
+                                    Log.DebugFormat("{0} disconnected to {1}", message.Name, name);
                                 }
                             }
                             else if (message.Msg.Equals("Publish"))
                             {
                                 RedirectToSubscribers(message);
                             }
+                            else if (message.Msg.Equals("Stop"))
+                            {
+                                foreach (var client in SubscribersList)
+                                {
+                                    var publisher = Client.GetSubscriber();
+                                    publisher.PublishAsync($"Subscriber_{client.Key}", "Stop");
+                                }
+                            }
+                        }
+                    }
+                    else if (Type == PubSubActors.Subscriber)
+                    {
+                        Log.DebugFormat("Subscriber {0} received '{1}' from channel '{2}'", Name, msg, channel);
+                        _totalMsgReceived += 1;
+                        if (msg.Equals("Stop"))
+                        {
+                            Log.DebugFormat("Total msg received is {0}", _totalMsgReceived);
                         }
                     }
 

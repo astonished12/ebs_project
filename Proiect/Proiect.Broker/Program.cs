@@ -12,7 +12,6 @@ namespace Proiect.Broker
             Broker b2 = new Broker("Broker2");
 
             Thread.Sleep(Timeout.Infinite);
-
         }
     }
 }

@@ -141,3 +141,4 @@ D:\workspace\Facultate-Master\masterAN2\sem2\event_based\proiect\Proiect\Proiect
 D:\workspace\Facultate-Master\masterAN2\sem2\event_based\proiect\Proiect\Proiect.Common\obj\Debug\Proiect.Common.csproj.CopyComplete
 D:\workspace\Facultate-Master\masterAN2\sem2\event_based\proiect\Proiect\Proiect.Common\obj\Debug\Proiect.Common.dll
 D:\workspace\Facultate-Master\masterAN2\sem2\event_based\proiect\Proiect\Proiect.Common\obj\Debug\Proiect.Common.pdb
+D:\workspace\Facultate-Master\masterAN2\sem2\event_based\proiect\Proiect\Proiect.Common\obj\Debug\Proiect.Common.csprojAssemblyReference.cache

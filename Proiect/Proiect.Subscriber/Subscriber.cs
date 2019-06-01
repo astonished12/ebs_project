@@ -6,26 +6,34 @@ namespace Proiect.Subscriber
 {
     public class Subscriber
     {
-        private readonly Channel Channel;
-        private ISerializer Serializer;
-        public Subscriber(string name)
+        private readonly Channel _channel;
+        private readonly ISerializer _serializer;
+        public string Name { get; set; }
+        public Filter Filter { get; set; }
+        public bool IsConnected { get; set; }
+
+        public Subscriber(string name, Filter filter)
         {
-            Channel = new Channel(PubSubActors.Subscriber);
-            Channel.StartListen($"Subscriber_{name}");
-            Serializer = new NewtonsoftSerializer();
+            Name = name;
+            Filter = filter;
+
+            _channel = new Channel(PubSubActors.Subscriber);
+            _channel.StartListen($"Subscriber_{name}");
+            _serializer = new NewtonsoftSerializer();
 
         }
+
 
         public void ConnectToBroker(string brokerName, object message)
         {
-            var publisher = Channel.Client.GetSubscriber();
-            publisher.PublishAsync($"Broker_{brokerName}", Serializer.Serialize(message));
+            var publisher = _channel.Client.GetSubscriber();
+            publisher.PublishAsync($"Broker_{brokerName}", _serializer.Serialize(message));
         }
 
-        public void DisconnectFromBroker(string brokerName)
+        public void DisconnectFromBroker(string brokerName, object message)
         {
-            var publisher = Channel.Client.GetSubscriber();
-            publisher.PublishAsync($"Broker_{brokerName}", "disconnect");
+            var publisher = _channel.Client.GetSubscriber();
+            publisher.PublishAsync($"Broker_{brokerName}", _serializer.Serialize(message));
         }
     }
 }

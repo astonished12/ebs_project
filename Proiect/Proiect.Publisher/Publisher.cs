@@ -14,13 +14,11 @@ namespace Proiect.Publisher
     {
         private readonly Channel Channel;
         public string BrokerName { get; set; }
-        private ISerializer Serializer;
 
         public Publisher(string name, string brokerName)
         {
             Channel = new Channel(PubSubActors.Publisher);
             BrokerName = brokerName;
-            Serializer = new NewtonsoftSerializer();
         }
 
         public void PublishMessage(object message)

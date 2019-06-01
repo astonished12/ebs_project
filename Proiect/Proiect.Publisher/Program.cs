@@ -12,13 +12,15 @@ namespace Proiect.Publisher
             Publisher p2 = new Publisher("Publisher1", "Broker2");
             var rnd = new Random();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 20000; i++)
             {
-                p1.PublishMessage(new Message{
+                p1.PublishMessage(new Message
+                {
                     Msg = "Publish",
                     Filter = null,
                     Name = String.Empty,
-                    Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }});
+                    Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
+                });
 
                 p2.PublishMessage(new Message
                 {
@@ -28,6 +30,11 @@ namespace Proiect.Publisher
                     Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
                 });
             }
+
+            p1.PublishMessage(new Message()
+            {
+                Msg = "Stop"
+            });
 
         }
     }
