@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Proiect.Common;
 using Proiect.Common.Messages;
 
@@ -12,7 +13,10 @@ namespace Proiect.Publisher
             Publisher p2 = new Publisher("Publisher1", "Broker2");
             var rnd = new Random();
 
-            for (int i = 0; i < 20000; i++)
+
+            Stopwatch sw = Stopwatch.StartNew();
+
+            while (sw.ElapsedMilliseconds < 30000)
             {
                 p1.PublishMessage(new Message
                 {
@@ -31,6 +35,7 @@ namespace Proiect.Publisher
                 });
             }
 
+            sw.Stop();
             p1.PublishMessage(new Message()
             {
                 Msg = "Stop"
