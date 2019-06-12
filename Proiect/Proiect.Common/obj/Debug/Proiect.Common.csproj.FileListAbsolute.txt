@@ -285,3 +285,4 @@ D:\workspace\Facultate-Master\ebs_project\Proiect\Proiect.Common\obj\Debug\Proie
 D:\workspace\Facultate-Master\ebs_project\Proiect\Proiect.Common\obj\Debug\Proiect.Common.csproj.CopyComplete
 D:\workspace\Facultate-Master\ebs_project\Proiect\Proiect.Common\obj\Debug\Proiect.Common.dll
 D:\workspace\Facultate-Master\ebs_project\Proiect\Proiect.Common\obj\Debug\Proiect.Common.pdb
+D:\workspace\Facultate-Master\ebs_project\Proiect\Proiect.Common\obj\Debug\Proiect.Common.csprojAssemblyReference.cache
