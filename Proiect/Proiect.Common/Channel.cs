@@ -22,7 +22,7 @@ namespace Proiect.Common
         public Thread ChannelThread = null;
 
         public static Dictionary<string, Filter> SubscribersList = new Dictionary<string, Filter>();
-        private readonly PubSubActors Type;
+        private readonly PubSubActors _type;
         private static readonly ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private const string IpConnection = "localhost: 6379";
 
@@ -31,7 +31,7 @@ namespace Proiect.Common
         public Channel(PubSubActors type)
         {
             Client = ConnectionMultiplexer.Connect(IpConnection);
-            Type = type;
+            _type = type;
         }
 
         public void StartListen(string name)
@@ -42,7 +42,7 @@ namespace Proiect.Common
                 ISubscriber subscription = Client.GetSubscriber();
                 subscription.Subscribe(Name, (channel, msg) =>
                 {
-                    if (Type == PubSubActors.Broker)
+                    if (_type == PubSubActors.Broker)
                     {
                         var message = JsonConvert.DeserializeObject<Message>(msg);
                         if (message != null)
@@ -78,13 +78,12 @@ namespace Proiect.Common
                             }
                         }
                     }
-                    else if (Type == PubSubActors.Subscriber)
+                    else if (_type == PubSubActors.Subscriber)
                     {
-                        //Log.DebugFormat("Subscriber {0} received '{1}' from channel '{2}'", Name, msg, channel);
                         _totalMsgReceived += 1;
                         if (msg.Equals("Stop"))
                         {
-                            Log.DebugFormat("Total msg received is {0}", _totalMsgReceived);
+                            Log.DebugFormat("Subscriber {0} ----- Total msg received is {1}", Name, _totalMsgReceived);
                         }
                     }
 

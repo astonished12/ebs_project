@@ -10,12 +10,12 @@ namespace Proiect.Publisher
         static void Main(string[] args)
         {
             Publisher p1 = new Publisher("Publisher1", "Broker1");
-            Publisher p2 = new Publisher("Publisher1", "Broker2");
+            Publisher p2 = new Publisher("Publisher2", "Broker2");
             var rnd = new Random();
-
 
             Stopwatch sw = Stopwatch.StartNew();
             Stopwatch sw1 = Stopwatch.StartNew();
+
             int totalMessages = 0;
             while (sw.ElapsedMilliseconds < 60000)
             {
@@ -44,7 +44,6 @@ namespace Proiect.Publisher
 
             sw.Stop();
             sw1.Stop();
-
 
             p1.PublishMessage(new Message()
             {

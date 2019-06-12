@@ -13,7 +13,7 @@ namespace Proiect.Subscriber
     {
         private static readonly List<Subscriber> subscribers = new List<Subscriber>();
         private static readonly List<string> _brokerNames = new List<string>();
-        private static Random random = new Random();
+        private static readonly Random random = new Random();
 
         static void Main(string[] args)
         {
@@ -53,16 +53,15 @@ namespace Proiect.Subscriber
 
         private static void HandleBrokerConnection(string brokerName, Subscriber subscriber, bool connect)
         {
-
             if (connect)
             {
                 if(subscriber.IsConnected) return;
-                subscriber.ConnectToBroker(brokerName, new Message
-                {
-                    Msg = "Connect",
-                    Name = subscriber.Name,
-                    Filter = subscriber.Filter
-                });
+                subscriber.ConnectToBroker(brokerName,
+                    new Message {
+                        Msg = "Connect",
+                        Name = subscriber.Name,
+                        Filter = subscriber.Filter
+                    });
 
                 Console.WriteLine($"{subscriber.Name}  is connecting with {brokerName}");
                 subscriber.IsConnected = true;
@@ -78,7 +77,6 @@ namespace Proiect.Subscriber
                 Console.WriteLine($"{subscriber.Name} disconnecting from {brokerName}");
                 subscriber.IsConnected = false;
                 HandleBrokerConnection(_brokerNames.OrderBy(x => Guid.NewGuid()).FirstOrDefault(), subscriber, true);
-
             }
         }
 
