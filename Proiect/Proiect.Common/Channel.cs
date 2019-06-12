@@ -24,7 +24,7 @@ namespace Proiect.Common
         public static Dictionary<string, Filter> SubscribersList = new Dictionary<string, Filter>();
         private readonly PubSubActors Type;
         private static readonly ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private const string IpConnection = "52.143.161.188: 6379";
+        private const string IpConnection = "localhost: 6379";
 
         private int _totalMsgReceived = 0;
 
@@ -80,7 +80,7 @@ namespace Proiect.Common
                     }
                     else if (Type == PubSubActors.Subscriber)
                     {
-                        Log.DebugFormat("Subscriber {0} received '{1}' from channel '{2}'", Name, msg, channel);
+                        //Log.DebugFormat("Subscriber {0} received '{1}' from channel '{2}'", Name, msg, channel);
                         _totalMsgReceived += 1;
                         if (msg.Equals("Stop"))
                         {

@@ -38,7 +38,7 @@ namespace Proiect.Subscriber
                 {
                     while (true)
                     {
-                        Thread.Sleep(30000);
+                        Thread.Sleep(10000);
                         foreach (var subscriber in subscribers)
                         {
                             HandleBrokerConnection(_brokerNames.OrderBy(x => Guid.NewGuid()).FirstOrDefault(), subscriber, random.Next(100) < 50);
@@ -64,7 +64,7 @@ namespace Proiect.Subscriber
                     Filter = subscriber.Filter
                 });
 
-                Console.WriteLine($"{subscriber.Name} connected to {brokerName}");
+                Console.WriteLine($"{subscriber.Name}  is connecting with {brokerName}");
                 subscriber.IsConnected = true;
             }
             else
@@ -75,9 +75,9 @@ namespace Proiect.Subscriber
                     Msg =  "Disconnect",
                     Name = subscriber.Name
                 });
-                Console.WriteLine($"{subscriber.Name} disconnected from {brokerName}");
+                Console.WriteLine($"{subscriber.Name} disconnecting from {brokerName}");
                 subscriber.IsConnected = false;
-                HandleBrokerConnection(_brokerNames.OrderBy(x => Guid.NewGuid()).FirstOrDefault(), subscriber, random.Next(100) < 50);
+                HandleBrokerConnection(_brokerNames.OrderBy(x => Guid.NewGuid()).FirstOrDefault(), subscriber, true);
 
             }
         }

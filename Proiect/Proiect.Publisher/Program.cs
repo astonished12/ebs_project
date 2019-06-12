@@ -15,32 +15,43 @@ namespace Proiect.Publisher
 
 
             Stopwatch sw = Stopwatch.StartNew();
-
-            while (sw.ElapsedMilliseconds < 30000)
+            Stopwatch sw1 = Stopwatch.StartNew();
+            int totalMessages = 0;
+            while (sw.ElapsedMilliseconds < 60000)
             {
-                p1.PublishMessage(new Message
+                if (sw1.ElapsedMilliseconds > 10)
                 {
-                    Msg = "Publish",
-                    Filter = null,
-                    Name = String.Empty,
-                    Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
-                });
+                    p1.PublishMessage(new Message
+                    {
+                        Msg = "Publish",
+                        Filter = null,
+                        Name = String.Empty,
+                        Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
+                    });
 
-                p2.PublishMessage(new Message
-                {
-                    Msg = "Publish",
-                    Filter = null,
-                    Name = String.Empty,
-                    Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
-                });
+                    p2.PublishMessage(new Message
+                    {
+                        Msg = "Publish",
+                        Filter = null,
+                        Name = String.Empty,
+                        Payload = new Payload { X = rnd.Next(1, 100), Y = rnd.Next(1, 100) }
+                    });
+
+                    totalMessages += 2;
+                    sw1.Restart();
+                }
             }
 
             sw.Stop();
+            sw1.Stop();
+
+
             p1.PublishMessage(new Message()
             {
                 Msg = "Stop"
             });
 
+            Console.WriteLine($"Total messages sent {totalMessages}");
         }
     }
 }
